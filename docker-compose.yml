@@ -3,15 +3,11 @@ services:
   db:
     image: mysql:8.0.23
     restart: always
-    # platform: linux/x86_64
+    platform: linux/x86_64
     container_name: 10n1s
     environment:
-      - MYSQL_DATABASE=10n1s
-      - MYSQL_USER=local
-      - MYSQL_PASSWORD=1234
-      - TZ=UTC
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_unicode_ci
+      MYSQL_DATABASE: 10n1s
+      MYSQL_ROOT_PASSWORD: 1234
+      TZ: UTC
     ports:
       - "3306:3306"
