@@ -1,0 +1,14 @@
+config:
+  repository:
+    engine: 
+    mysql:
+      port:
+      user:
+      passwd:
+      endpoint:
+      database:
+      maxIdleConnections:
+      maxOpenConnections:
+      connMaxIdleTime:
+      connMaxLifeTime:
+      queryLogMode:
