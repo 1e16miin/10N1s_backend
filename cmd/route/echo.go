@@ -71,7 +71,7 @@ func (e *echoRouter) AddHandler(ctx context.Context) error {
 		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.PATCH},
 	}))
 
-	e.route.GET("test", e.testGetHandler)
+	e.route.GET("/test", e.testGetHandler)
 
 	return nil
 }

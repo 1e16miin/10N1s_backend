@@ -4,8 +4,6 @@ import (
 	"context"
 
 	"gorm.io/gorm"
-
-	"github.com/10n1s-backend/cmd/model"
 )
 
 type AuthHandler struct {
@@ -28,7 +26,7 @@ func (h *AuthHandler) DBExampleGet() error {
 		}
 	}()
 
-	tx.Model(&model.Test{}).Create(&model.Test{ID: 1})
+	//tx.Model(&model.Test{}).Create(&model.Test{ID: 1})
 
 	tx.Commit()
 	if tx.Error != nil {
