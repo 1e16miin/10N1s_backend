@@ -6,6 +6,14 @@ type RankHandler struct{}
 type Interface interface {
 }
 
-func NewRankHandler(ctx context.Context) (Interface, error) {
-	return &RankHandler{}, nil
+type Config struct {
+	Enabled bool `config:"enabled"`
+}
+
+func NewRankHandler(ctx context.Context, cfg Config) (Interface, error) {
+	if cfg.Enabled {
+		return &RankHandler{}, nil
+	} else {
+		return &dummy{}, nil
+	}
 }

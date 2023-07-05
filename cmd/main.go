@@ -29,27 +29,27 @@ func main() {
 		logger.Fatal("repository init error : " + err.Error())
 	}
 
-	authHandler, err := auth.NewAuthHandler(ctx, db)
+	authHandler, err := auth.NewAuthHandler(ctx, cfg.AuthConfig, db)
 	if err != nil {
 		logger.Fatal("authHandler init error : " + err.Error())
 	}
 
-	gameHandler, err := game.NewGameHandler(ctx)
+	gameHandler, err := game.NewGameHandler(ctx, cfg.GameConfig)
 	if err != nil {
 		logger.Fatal("gameHandler init error : " + err.Error())
 	}
 
-	groupHandler, err := group.NewGroupHandler(ctx)
+	groupHandler, err := group.NewGroupHandler(ctx, cfg.GroupConfig)
 	if err != nil {
 		logger.Fatal("groupHandler init error : " + err.Error())
 	}
 
-	rankHandler, err := rank.NewRankHandler(ctx)
+	rankHandler, err := rank.NewRankHandler(ctx, cfg.RankConfig)
 	if err != nil {
 		logger.Fatal("rankHandler init error : " + err.Error())
 	}
 
-	userHandler, err := user.NewUserHandler(ctx)
+	userHandler, err := user.NewUserHandler(ctx, cfg.UserConfig)
 	if err != nil {
 		logger.Fatal("userHandler init error : " + err.Error())
 	}

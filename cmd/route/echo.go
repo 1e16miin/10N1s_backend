@@ -77,7 +77,7 @@ func (e *echoRouter) AddHandler(ctx context.Context) error {
 }
 
 func (e *echoRouter) Start() error {
-	return e.route.Start(fmt.Sprintf(":%s", "8080"))
+	return e.route.Start(fmt.Sprintf(":%s", e.config.Port))
 }
 
 func (e *echoRouter) testGetHandler(c echo.Context) error {
