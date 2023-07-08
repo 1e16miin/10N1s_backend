@@ -2,18 +2,11 @@ package user
 
 import "context"
 
-type UserHandler struct{}
-type Interface interface {
-}
+type userHandler struct{}
+type Interface interface{}
 
-type Config struct {
-	Enabled bool `config:"enabled"`
-}
+type Config struct{}
 
-func NewUserHandler(ctx context.Context, cfg Config) (Interface, error) {
-	if cfg.Enabled {
-		return &UserHandler{}, nil
-	} else {
-		return &dummy{}, nil
-	}
+func NewUserHandler(ctx context.Context, cfg Config) *userHandler {
+	return &userHandler{}
 }

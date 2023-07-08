@@ -3,15 +3,10 @@ route:
   echo:
     port: 1234
 auth:
-  enabled: false
 game:
-  enabled: false
 group:
-  enabled: false
 rank:
-  enabled: false
 user:
-  enabled: false
 repository:
   engine: mysql
   mysql:

@@ -1,57 +1,51 @@
 package game
 
-import (
-	"context"
+// func (g *gameHandler) get(ctx context.Context, id int) (*model.Game, error) {
+// 	tx := g.db.Begin()
+// 	isCommitted := false
+// 	defer func() {
+// 		if !isCommitted {
+// 			tx.Rollback()
+// 		}
+// 	}()
 
-	"github.com/10n1s-backend/cmd/model"
-)
+// 	var targetGame model.Game
 
-func (g *GameHandler) Get(ctx context.Context, id int) (*model.Game, error) {
-	tx := g.db.Begin()
-	isCommitted := false
-	defer func() {
-		if !isCommitted {
-			tx.Rollback()
-		}
-	}()
+// 	tx.Model(&model.Game{}).Where("id = ?", id).Scan(&targetGame)
 
-	var targetGame model.Game
+// 	tx.Commit()
 
-	tx.Model(&model.Game{}).Where("id = ?", id).Scan(&targetGame)
+// 	if tx.Error != nil {
+// 		return nil, tx.Error
+// 	}
+// 	isCommitted = true
 
-	tx.Commit()
+// 	return &targetGame, nil
+// }
 
-	if tx.Error != nil {
-		return nil, tx.Error
-	}
-	isCommitted = true
+// func (g *GameHandler) GetByUserID(ctx context.Context, userID int) (*model.Game, error) {
+// 	tx := g.db.Begin()
+// 	isCommitted := false
+// 	defer func() {
+// 		if !isCommitted {
+// 			tx.Rollback()
+// 		}
+// 	}()
 
-	return &targetGame, nil
-}
+// 	var targetGame model.Game
 
-func (g *GameHandler) GetByUserID(ctx context.Context, userID int) (*model.Game, error) {
-	tx := g.db.Begin()
-	isCommitted := false
-	defer func() {
-		if !isCommitted {
-			tx.Rollback()
-		}
-	}()
+// 	tx.Model(&model.Game{}).Where("host_id = ?", userID).
+// 		Or("guest_id1 = ?", userID).
+// 		Or("guest_id2 = ?", userID).
+// 		Or("guest_id3 = ?", userID).
+// 		Scan(targetGame)
 
-	var targetGame model.Game
+// 	tx.Commit()
 
-	tx.Model(&model.Game{}).Where("host_id = ?", userID).
-		Or("guest_id1 = ?", userID).
-		Or("guest_id2 = ?", userID).
-		Or("guest_id3 = ?", userID).
-		Scan(targetGame)
+// 	if tx.Error != nil {
+// 		return nil, tx.Error
+// 	}
+// 	isCommitted = true
 
-	tx.Commit()
-
-	if tx.Error != nil {
-		return nil, tx.Error
-	}
-	isCommitted = true
-
-	return &targetGame, nil
-}
+// 	return &targetGame, nil
+// }

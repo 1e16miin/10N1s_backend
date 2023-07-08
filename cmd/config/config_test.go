@@ -7,9 +7,9 @@ import (
 	"github.com/10n1s-backend/cmd/game"
 	"github.com/10n1s-backend/cmd/group"
 	"github.com/10n1s-backend/cmd/rank"
-	"github.com/10n1s-backend/cmd/repository"
 	"github.com/10n1s-backend/cmd/route"
 	"github.com/10n1s-backend/cmd/user"
+	"github.com/10n1s-backend/pkg/database"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -22,9 +22,9 @@ func TestLoadConfig(t *testing.T) {
 				Port: "1234",
 			},
 		},
-		RepositoryConfig: repository.Config{
+		DatabaseConfig: database.Config{
 			Engine: "mysql",
-			MySQL: repository.MysqlConfig{
+			MySQL: database.MysqlConfig{
 				Port:                "3306",
 				User:                "root",
 				PassWd:              "asdf",
@@ -37,21 +37,11 @@ func TestLoadConfig(t *testing.T) {
 				QueryLogModeEnabled: true,
 			},
 		},
-		AuthConfig: auth.Config{
-			Enabled: false,
-		},
-		GameConfig: game.Config{
-			Enabled: false,
-		},
-		GroupConfig: group.Config{
-			Enabled: false,
-		},
-		RankConfig: rank.Config{
-			Enabled: false,
-		},
-		UserConfig: user.Config{
-			Enabled: false,
-		},
+		AuthConfig:  auth.Config{},
+		GameConfig:  game.Config{},
+		GroupConfig: group.Config{},
+		RankConfig:  rank.Config{},
+		UserConfig:  user.Config{},
 	}
 
 	config := Get("")

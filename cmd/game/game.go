@@ -2,38 +2,50 @@ package game
 
 import (
 	"context"
-
-	"github.com/10n1s-backend/cmd/model"
-	"github.com/shopspring/decimal"
-	"gorm.io/gorm"
 )
 
-type GameHandler struct {
-	db *gorm.DB
-}
+type gameHandler struct{}
 
-type Config struct {
-	Enabled bool `config:"enabled"`
-}
+type Config struct{}
 
 type Interface interface {
-	Create(ctx context.Context, hostID int, latitude, longitude decimal.Decimal) error
-
-	Get(ctx context.Context, id int) (*model.Game, error)
-	GetByUserID(ctx context.Context, id int) (*model.Game, error)
-
-	List(ctx context.Context) ([]model.Game, error)
-	ListNGamesByLocation(ctx context.Context, n int, latitude, longitude decimal.Decimal) ([]model.Game, error)
-
-	Update(ctx context.Context, game *model.Game) error
-
-	Delete(ctx context.Context, game *model.Game) error
+	Start(ctx context.Context) error
+	End(ctx context.Context) error
+	Get(ctx context.Context) error
+	List(ctx context.Context) error
 }
 
-func NewGameHandler(ctx context.Context, cfg Config) (Interface, error) {
-	if cfg.Enabled {
-		return &GameHandler{}, nil
-	} else {
-		return &dummy{}, nil
-	}
+func NewGameHandler(ctx context.Context, cfg Config) *gameHandler {
+	return &gameHandler{}
 }
+
+func (g *gameHandler) Start(ctx context.Context) error {
+
+	return nil
+}
+
+func (g *gameHandler) End(ctx context.Context) error {
+	return nil
+}
+
+func (g *gameHandler) Get(ctx context.Context) error {
+	return nil
+}
+
+func (g *gameHandler) List(ctx context.Context) error {
+	return nil
+}
+
+/*
+create(ctx context.Context, hostID int, latitude, longitude decimal.Decimal) error
+
+get(ctx context.Context, id int) (*model.Game, error)
+getByUserID(ctx context.Context, id int) (*model.Game, error)
+
+list(ctx context.Context) ([]model.Game, error)
+listGamesByLocation(ctx context.Context, n int, latitude, longitude decimal.Decimal) ([]model.Game, error)
+
+update(ctx context.Context, game *model.Game) error
+
+delete(ctx context.Context, game *model.Game) error
+*/

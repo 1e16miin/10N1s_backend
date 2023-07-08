@@ -1,4 +1,4 @@
-package repository
+package database
 
 import (
 	"context"
@@ -13,9 +13,8 @@ type Config struct {
 	MySQL  MysqlConfig `config:"mysql"`
 }
 
-func NewGormHelper(ctx context.Context, config Config) (*gorm.DB, error) {
+func NewDatabase(ctx context.Context, config Config) (*gorm.DB, error) {
 	var err error
-
 	if gormDB != nil {
 		switch config.Engine {
 		case "mysql":

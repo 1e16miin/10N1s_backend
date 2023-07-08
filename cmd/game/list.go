@@ -1,18 +1,11 @@
 package game
 
-import (
-	"context"
+// func (g *gameHandler) List(ctx context.Context) ([]model.Game, error) {
 
-	"github.com/10n1s-backend/cmd/model"
-	"github.com/shopspring/decimal"
-)
+// 	return nil, nil
+// }
 
-func (g *GameHandler) List(ctx context.Context) ([]model.Game, error) {
+// func (g *gameHandler) ListNGamesByLocation(ctx context.Context, n int, latitude, longitude decimal.Decimal) ([]model.Game, error) {
 
-	return nil, nil
-}
-
-func (g *GameHandler) ListNGamesByLocation(ctx context.Context, n int, latitude, longitude decimal.Decimal) ([]model.Game, error) {
-
-	return nil, nil
-}
+// 	return nil, nil
+// }

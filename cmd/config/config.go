@@ -14,10 +14,10 @@ import (
 	"github.com/10n1s-backend/cmd/game"
 	"github.com/10n1s-backend/cmd/group"
 	"github.com/10n1s-backend/cmd/rank"
-	"github.com/10n1s-backend/cmd/repository"
 	"github.com/10n1s-backend/cmd/route"
 	"github.com/10n1s-backend/cmd/user"
 	"github.com/10n1s-backend/pkg/config"
+	"github.com/10n1s-backend/pkg/database"
 )
 
 const (
@@ -33,13 +33,13 @@ var (
 )
 
 type TennisConfig struct {
-	RouteConfig      route.Config      `config:"route"`
-	RepositoryConfig repository.Config `config:"repository"`
-	AuthConfig       auth.Config       `config:"auth"`
-	GameConfig       game.Config       `config:"game"`
-	GroupConfig      group.Config      `config:"group"`
-	RankConfig       rank.Config       `config:"rank"`
-	UserConfig       user.Config       `config:"user"`
+	RouteConfig    route.Config    `config:"route"`
+	DatabaseConfig database.Config `config:"database"`
+	AuthConfig     auth.Config     `config:"auth"`
+	GameConfig     game.Config     `config:"game"`
+	GroupConfig    group.Config    `config:"group"`
+	RankConfig     rank.Config     `config:"rank"`
+	UserConfig     user.Config     `config:"user"`
 }
 
 func Get(configFilePath string) *TennisConfig {

@@ -1,15 +1,9 @@
 package game
 
-import (
-	"context"
+// func (g *gameHandler) Create(ctx context.Context, hostID int, latitude, longitude decimal.Decimal) error {
+// 	// get location
 
-	"github.com/shopspring/decimal"
-)
+// 	// create game
 
-func (g *GameHandler) Create(ctx context.Context, hostID int, latitude, longitude decimal.Decimal) error {
-	// get location
-
-	// create game
-
-	return nil
-}
+// 	return nil
+// }
