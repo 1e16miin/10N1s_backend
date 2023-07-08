@@ -71,13 +71,13 @@ func (e *echoRouter) AddHandler(ctx context.Context) error {
 		AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE, echo.PATCH},
 	}))
 
-	e.route.GET("test", e.testGetHandler)
+	e.route.GET("/test", e.testGetHandler)
 
 	return nil
 }
 
 func (e *echoRouter) Start() error {
-	return e.route.Start(fmt.Sprintf(":%s", "8080"))
+	return e.route.Start(fmt.Sprintf(":%s", e.config.Port))
 }
 
 func (e *echoRouter) testGetHandler(c echo.Context) error {

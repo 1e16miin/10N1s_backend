@@ -10,14 +10,19 @@ import (
 	"runtime"
 	"sync"
 
+	"github.com/10n1s-backend/cmd/auth"
+	"github.com/10n1s-backend/cmd/game"
+	"github.com/10n1s-backend/cmd/group"
+	"github.com/10n1s-backend/cmd/rank"
 	"github.com/10n1s-backend/cmd/repository"
 	"github.com/10n1s-backend/cmd/route"
+	"github.com/10n1s-backend/cmd/user"
 	"github.com/10n1s-backend/pkg/config"
 )
 
 const (
-	configName     = "Tennis"
-	testConfigName = "Tennis-test"
+	configName     = "tennis"
+	testConfigName = "tennis-test"
 )
 
 var localPath = "." //set as environment later
@@ -30,6 +35,11 @@ var (
 type TennisConfig struct {
 	RouteConfig      route.Config      `config:"route"`
 	RepositoryConfig repository.Config `config:"repository"`
+	AuthConfig       auth.Config       `config:"auth"`
+	GameConfig       game.Config       `config:"game"`
+	GroupConfig      group.Config      `config:"group"`
+	RankConfig       rank.Config       `config:"rank"`
+	UserConfig       user.Config       `config:"user"`
 }
 
 func Get(configFilePath string) *TennisConfig {

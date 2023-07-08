@@ -6,6 +6,14 @@ type GroupHandler struct{}
 type Interface interface {
 }
 
-func NewGroupHandler(ctx context.Context) (Interface, error) {
-	return &GroupHandler{}, nil
+type Config struct {
+	Enabled bool `config:"enabled"`
+}
+
+func NewGroupHandler(ctx context.Context, cfg Config) (Interface, error) {
+	if cfg.Enabled {
+		return &GroupHandler{}, nil
+	} else {
+		return &dummy{}, nil
+	}
 }

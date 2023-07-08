@@ -15,6 +15,7 @@ type Config struct {
 
 func NewGormHelper(ctx context.Context, config Config) (*gorm.DB, error) {
 	var err error
+
 	if gormDB != nil {
 		switch config.Engine {
 		case "mysql":
