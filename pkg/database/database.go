@@ -1,31 +1,19 @@
 package database
 
 import (
-	"context"
-
 	"gorm.io/gorm"
 )
-
-var gormDB *gorm.DB
 
 type Config struct {
 	Engine string      `config:"engine"`
 	MySQL  MysqlConfig `config:"mysql"`
 }
 
-func NewDatabase(ctx context.Context, config Config) (*gorm.DB, error) {
-	var err error
-	if gormDB != nil {
-		switch config.Engine {
-		case "mysql":
-			gormDB, err = initMysqlDB(config.MySQL)
-		default:
-			gormDB, err = initMysqlDB(config.MySQL)
-		}
-		if err != nil {
-			return nil, err
-		}
-		return gormDB, nil
+func NewDatabase(cfg Config) (*gorm.DB, error) {
+	switch cfg.Engine {
+	case "mysql":
+		return initMysqlDB(cfg.MySQL)
+	default:
+		return initMysqlDB(cfg.MySQL)
 	}
-	return nil, nil
 }

@@ -6,6 +6,7 @@ services:
     # platform: linux/x86_64
     container_name: 10n1s
     environment:
+      - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=10n1s
       - MYSQL_USER=local
       - MYSQL_PASSWORD=1234

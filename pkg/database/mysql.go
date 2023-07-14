@@ -34,14 +34,15 @@ func mysqlCreateDBConnectionPool(config MysqlConfig) (*sql.DB, error) {
 	connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=UTC&autocommit=false&tls=preferred",
 		config.User, config.PassWd, config.EndPoint, config.Port, config.Database)
 	sqlDB, err := sql.Open("mysql", connectString)
+	if err != nil {
+		return nil, err
+	}
+
 	sqlDB.SetMaxIdleConns(config.MaxIdleConnections)
 	sqlDB.SetMaxOpenConns(config.MaxOpenConnections)
 	sqlDB.SetConnMaxLifetime(config.ConnMaxLifetime)
 	sqlDB.SetConnMaxIdleTime(config.ConnMaxIdleTime)
 
-	if err != nil {
-		return nil, err
-	}
 	return sqlDB, nil
 }
 

@@ -1,9 +1,11 @@
 package cache
 
-import (
-	"github.com/redis/go-redis/v9"
-)
+import "github.com/go-redis/redis/v8"
 
-func NewCache() error {
-	redis.NewClient()
+type Config struct {
+	Engine string `config:"engine"`
+}
+
+func NewCache(cfg Config) (*redis.Client, error) {
+	return nil, nil
 }
