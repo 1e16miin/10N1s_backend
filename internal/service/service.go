@@ -62,7 +62,9 @@ func (s *Service) CreateRoom(hostID, latitude, longitude string) (*roomModel.Roo
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
 	defer cancel()
 
-	room, err := s.roomSVC.CreateRoom(ctx, hostID, latitude, longitude, s.db)
+	hostIDInt := 0 // hostIDInt := hostID를 어떻게 관리 ? Q3
+
+	room, err := s.roomSVC.CreateRoom(ctx, hostIDInt, latitude, longitude, s.db)
 	if err != nil {
 		s.logger.Error(err)
 		return nil, err

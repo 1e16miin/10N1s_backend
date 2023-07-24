@@ -8,13 +8,14 @@ import (
 	"github.com/10n1s-backend/internal/room/model"
 	"github.com/10n1s-backend/internal/room/repository/cache"
 	"github.com/10n1s-backend/internal/room/repository/database"
+	"github.com/go-redis/redis/v8"
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 )
 
 type RoomService interface {
 	GetAllRooms(ctx context.Context, db *gorm.DB) ([]model.Room, error)
-	CreateRoom(ctx context.Context, hostID, latitude, longitude string, db *gorm.DB) (*model.Room, error)
+	CreateRoom(ctx context.Context, hostID int, latitude, longitude string, db *gorm.DB) (*model.Room, error)
 }
 
 type roomService struct {
@@ -26,7 +27,7 @@ func NewService(roomRepository database.RoomRepository, roomRepositoryCache cach
 	return &roomService{roomRepository: roomRepository, roomRepositoryCache: roomRepositoryCache}
 }
 
-func (s *roomService) CreateRoom(ctx context.Context, hostID, latitude, longitude string, db *gorm.DB) (*model.Room, error) {
+func (s *roomService) CreateRoom(ctx context.Context, hostID int, latitude, longitude string, db *gorm.DB) (*model.Room, error) {
 	lat, err := decimal.NewFromString(latitude)
 	if err != nil {
 		return nil, fmt.Errorf("cannot parse coordinates: %w", err)
@@ -42,4 +43,9 @@ func (s *roomService) CreateRoom(ctx context.Context, hostID, latitude, longitud
 
 func (s *roomService) GetAllRooms(ctx context.Context, db *gorm.DB) ([]model.Room, error) {
 	return s.roomRepository.GetAllRooms(ctx, db)
+}
+
+func (s *roomService) JoinRoom(ctx context.Context, roomID, userID int, cache *redis.Client) error {
+	s.roomRepositoryCache.SetSession(ctx, roomID, userID, cache)
+	return nil
 }

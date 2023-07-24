@@ -16,7 +16,14 @@ database:
     queryLogMode: true
 
 cache:
-  engine: redis
+  engine: 
+    redis:
+      redisAddr:
+      password:
+      minIdleConns:
+      poolSize:
+      poolTimeout:
+      db:      
 
 room:
   database:

@@ -8,7 +8,7 @@ import (
 
 type Room struct {
 	ID        int `gorm:"primaryKey;autoIncrement"`
-	HostID    string
+	HostID    int
 	Latitude  decimal.Decimal `gorm:"type:decimal(7,6);"`
 	Longitude decimal.Decimal `gorm:"type:decimal(7,6);"`
 	CreatedAt time.Time
