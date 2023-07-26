@@ -3,9 +3,10 @@ package cache
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	"github.com/10n1s-backend/internal/room/model"
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
 )
 
 /*
@@ -27,7 +28,20 @@ func NewRepositoryCache() RoomRepositoryCache {
 }
 
 func (r *roomCache) GetUsersIDByRoomID(ctx context.Context, roomID int, redis *redis.Client) ([]int, error) {
-	return nil, nil
+	keyRoom := getKeyFormatRoom(roomID)
+	val, err := redis.LRange(ctx, keyRoom, 0, -1).Result()
+	if err != nil {
+		return nil, fmt.Errorf("lrange error: %w", err)
+	}
+	ret := []int{}
+	for _, roomIDString := range val {
+		roomIDInt, err := strconv.Atoi(roomIDString)
+		if err != nil {
+			return nil, fmt.Errorf("strconv error: %w", err)
+		}
+		ret = append(ret, roomIDInt)
+	}
+	return ret, nil
 }
 
 func (r *roomCache) SetSession(ctx context.Context, roomID, userID int, redis *redis.Client) (*model.Session, error) {
@@ -36,7 +50,7 @@ func (r *roomCache) SetSession(ctx context.Context, roomID, userID int, redis *r
 	val, err := redis.LPush(ctx, keyRoom, valueUser).Result()
 	fmt.Println(val)
 	if err != nil {
-		return nil, fmt.Errorf("l push error: %w", err)
+		return nil, fmt.Errorf("lpush error: %w", err)
 	}
 
 	return &model.Session{UserID: userID, RoomID: roomID}, nil

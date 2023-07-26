@@ -7,8 +7,8 @@ import (
 	"github.com/10n1s-backend/pkg/cache"
 	"github.com/10n1s-backend/pkg/database"
 	"github.com/10n1s-backend/pkg/logger"
-	"github.com/go-redis/redis/v8"
 	"github.com/labstack/echo/v4"
+	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 

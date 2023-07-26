@@ -8,7 +8,7 @@ import (
 	"github.com/10n1s-backend/internal/room/repository/cache"
 	"github.com/10n1s-backend/internal/room/repository/database"
 	"github.com/10n1s-backend/pkg/logger"
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 )

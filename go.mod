@@ -3,9 +3,9 @@ module github.com/10n1s-backend
 go 1.19
 
 require (
-	github.com/go-redis/redis/v8 v8.11.5
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/mitchellh/mapstructure v1.5.0
+	github.com/redis/go-redis/v9 v9.0.5
 	github.com/shopspring/decimal v1.3.1
 	github.com/spf13/viper v1.16.0
 	go.uber.org/zap v1.24.0
