@@ -40,16 +40,25 @@ func (s *roomService) CreateRoom(ctx context.Context, hostID int, latitude, long
 	if err != nil {
 		return nil, fmt.Errorf("cannot parse coordinates: %w", err)
 	}
-
-	room := &model.Room{HostID: hostID, Latitude: lat, Longitude: long}
-	return s.roomRepository.CreateRoom(room, s.db)
+	room, err := s.roomRepository.CreateRoom(&model.Room{HostID: hostID, Latitude: lat, Longitude: long}, s.db)
+	if err != nil {
+		return nil, fmt.Errorf("db error: %w", err)
+	}
+	return room, nil
 }
 
 func (s *roomService) GetAllRooms(ctx context.Context) ([]model.Room, error) {
-	return s.roomRepository.GetAllRooms(s.db)
+	rooms, err := s.roomRepository.GetAllRooms(s.db)
+	if err != nil {
+		return nil, fmt.Errorf("db error: %w", err)
+	}
+	return rooms, nil
 }
 
 func (s *roomService) JoinRoom(ctx context.Context, roomID, userID int) error {
-	s.roomRepositoryCache.SetSession(ctx, roomID, userID, s.cache)
+	_, err := s.roomRepositoryCache.SetSession(ctx, roomID, userID, s.cache)
+	if err != nil {
+		return fmt.Errorf("cache error: %w", err)
+	}
 	return nil
 }

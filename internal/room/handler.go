@@ -4,21 +4,19 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/10n1s-backend/pkg/logger"
 	"github.com/labstack/echo/v4"
 )
 
 type Handler struct {
 	service RoomService
-	logger  logger.Logger
 }
 
-func NewHandler(svc RoomService, logger logger.Logger) *Handler {
-	return &Handler{service: svc, logger: logger}
+func NewHandler(svc RoomService) *Handler {
+	return &Handler{service: svc}
 }
 
-func RegisterHandlers(e *echo.Echo, svc RoomService, logger logger.Logger) {
-	handler := NewHandler(svc, logger)
+func RegisterHandlers(e *echo.Echo, svc RoomService) {
+	handler := NewHandler(svc)
 	handler.registerRoomHandlers(e)
 }
 
@@ -30,7 +28,6 @@ func (h *Handler) registerRoomHandlers(e *echo.Echo) {
 func (h *Handler) GetAllRoom(ctx echo.Context) error {
 	//  validate
 	//	r := ctx.Request()
-
 	context := context.Background()
 
 	rooms, err := h.service.GetAllRooms(context)
@@ -42,6 +39,5 @@ func (h *Handler) GetAllRoom(ctx echo.Context) error {
 }
 
 func (h *Handler) CreateRoom(ctx echo.Context) error {
-
 	return ctx.JSON(http.StatusOK, "test")
 }
