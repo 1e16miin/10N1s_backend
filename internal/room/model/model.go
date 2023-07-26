@@ -12,6 +12,7 @@ type Room struct {
 	Latitude  decimal.Decimal `gorm:"type:decimal(7,6);"`
 	Longitude decimal.Decimal `gorm:"type:decimal(7,6);"`
 	CreatedAt time.Time
+	UpdatedAt time.Time
 	DeletedAt time.Time
 }
 type Session struct {

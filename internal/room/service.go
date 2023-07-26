@@ -3,7 +3,6 @@ package room
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/10n1s-backend/internal/room/model"
 	"github.com/10n1s-backend/internal/room/repository/cache"
@@ -42,7 +41,7 @@ func (s *roomService) CreateRoom(ctx context.Context, hostID int, latitude, long
 		return nil, fmt.Errorf("cannot parse coordinates: %w", err)
 	}
 
-	room := &model.Room{HostID: hostID, Latitude: lat, Longitude: long, CreatedAt: time.Now()}
+	room := &model.Room{HostID: hostID, Latitude: lat, Longitude: long}
 	return s.roomRepository.CreateRoom(room, s.db)
 }
 
