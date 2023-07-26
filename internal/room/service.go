@@ -8,26 +8,31 @@ import (
 	"github.com/10n1s-backend/internal/room/model"
 	"github.com/10n1s-backend/internal/room/repository/cache"
 	"github.com/10n1s-backend/internal/room/repository/database"
+	"github.com/10n1s-backend/pkg/logger"
 	"github.com/go-redis/redis/v8"
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
 )
 
 type RoomService interface {
-	GetAllRooms(ctx context.Context, db *gorm.DB) ([]model.Room, error)
-	CreateRoom(ctx context.Context, hostID int, latitude, longitude string, db *gorm.DB) (*model.Room, error)
+	GetAllRooms(ctx context.Context) ([]model.Room, error)
+	CreateRoom(ctx context.Context, hostID int, latitude, longitude string) (*model.Room, error)
 }
 
 type roomService struct {
 	roomRepository      database.RoomRepository
 	roomRepositoryCache cache.RoomRepositoryCache
+
+	db     *gorm.DB
+	cache  *redis.Client
+	logger logger.Logger
 }
 
-func NewService(roomRepository database.RoomRepository, roomRepositoryCache cache.RoomRepositoryCache) RoomService {
-	return &roomService{roomRepository: roomRepository, roomRepositoryCache: roomRepositoryCache}
+func NewService(roomRepository database.RoomRepository, roomRepositoryCache cache.RoomRepositoryCache, db *gorm.DB, redis *redis.Client, logger logger.Logger) RoomService {
+	return &roomService{roomRepository: roomRepository, roomRepositoryCache: roomRepositoryCache, db: db, cache: redis, logger: logger}
 }
 
-func (s *roomService) CreateRoom(ctx context.Context, hostID int, latitude, longitude string, db *gorm.DB) (*model.Room, error) {
+func (s *roomService) CreateRoom(ctx context.Context, hostID int, latitude, longitude string) (*model.Room, error) {
 	lat, err := decimal.NewFromString(latitude)
 	if err != nil {
 		return nil, fmt.Errorf("cannot parse coordinates: %w", err)
@@ -38,14 +43,14 @@ func (s *roomService) CreateRoom(ctx context.Context, hostID int, latitude, long
 	}
 
 	room := &model.Room{HostID: hostID, Latitude: lat, Longitude: long, CreatedAt: time.Now()}
-	return s.roomRepository.CreateRoom(ctx, room, db)
+	return s.roomRepository.CreateRoom(room, s.db)
 }
 
-func (s *roomService) GetAllRooms(ctx context.Context, db *gorm.DB) ([]model.Room, error) {
-	return s.roomRepository.GetAllRooms(ctx, db)
+func (s *roomService) GetAllRooms(ctx context.Context) ([]model.Room, error) {
+	return s.roomRepository.GetAllRooms(s.db)
 }
 
-func (s *roomService) JoinRoom(ctx context.Context, roomID, userID int, cache *redis.Client) error {
-	s.roomRepositoryCache.SetSession(ctx, roomID, userID, cache)
+func (s *roomService) JoinRoom(ctx context.Context, roomID, userID int) error {
+	s.roomRepositoryCache.SetSession(ctx, roomID, userID, s.cache)
 	return nil
 }

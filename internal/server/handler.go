@@ -3,12 +3,10 @@ package server
 import (
 	"strings"
 
-	"github.com/10n1s-backend/internal/handler"
 	"github.com/10n1s-backend/internal/room"
 	roomCache "github.com/10n1s-backend/internal/room/repository/cache"
 	roomDB "github.com/10n1s-backend/internal/room/repository/database"
 
-	"github.com/10n1s-backend/internal/service"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -21,11 +19,9 @@ func (s *Server) MapHandlers() error {
 
 	roomRepositoryCache := roomCache.NewRepositoryCache()
 
-	roomSVC := room.NewService(roomRepository, roomRepositoryCache)
+	roomSVC := room.NewService(roomRepository, roomRepositoryCache, s.db, s.cache, s.logger)
 
-	svc := service.NewService(s.db, s.cache, roomSVC, s.logger)
-
-	handler.RegisterHandlers(s.echo, svc, s.logger)
+	room.RegisterHandlers(s.echo, roomSVC, s.logger)
 
 	s.echo.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},

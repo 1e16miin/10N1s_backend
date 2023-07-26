@@ -1,7 +1,6 @@
 package database
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/10n1s-backend/internal/room/model"
@@ -9,12 +8,12 @@ import (
 )
 
 type RoomRepository interface {
-	CreateRoom(ctx context.Context, room *model.Room, db *gorm.DB) (*model.Room, error)
-	DeleteRoom(ctx context.Context, roomID int, db *gorm.DB) error
-	UpdateRoom(ctx context.Context, room *model.Room, db *gorm.DB) (*model.Room, error)
-	GetRoom(ctx context.Context, roomID int, db *gorm.DB) (*model.Room, error)
-	GetRoomByHostID(ctx context.Context, hostID int, db *gorm.DB) (*model.Room, error)
-	GetAllRooms(ctx context.Context, db *gorm.DB) ([]model.Room, error)
+	CreateRoom(room *model.Room, db *gorm.DB) (*model.Room, error)
+	DeleteRoom(roomID int, db *gorm.DB) error
+	UpdateRoom(room *model.Room, db *gorm.DB) (*model.Room, error)
+	GetRoom(roomID int, db *gorm.DB) (*model.Room, error)
+	GetRoomByHostID(hostID int, db *gorm.DB) (*model.Room, error)
+	GetAllRooms(db *gorm.DB) ([]model.Room, error)
 }
 
 type Config struct {
@@ -42,7 +41,7 @@ func (r *roomDB) autoMigrateRoom(db *gorm.DB) error {
 	return db.Migrator().CreateTable(&model.Room{})
 }
 
-func (r *roomDB) CreateRoom(ctx context.Context, room *model.Room, db *gorm.DB) (*model.Room, error) {
+func (r *roomDB) CreateRoom(room *model.Room, db *gorm.DB) (*model.Room, error) {
 	result := db.Create(room)
 	if result.Error != nil {
 		return nil, fmt.Errorf("queryFailed: %w", result.Error)
@@ -50,7 +49,7 @@ func (r *roomDB) CreateRoom(ctx context.Context, room *model.Room, db *gorm.DB) 
 	return room, nil
 }
 
-func (r *roomDB) DeleteRoom(ctx context.Context, roomID int, db *gorm.DB) error {
+func (r *roomDB) DeleteRoom(roomID int, db *gorm.DB) error {
 	result := db.Delete(&model.Room{}, roomID)
 	if result.Error != nil {
 		return fmt.Errorf("queryFailed: %w", result.Error)
@@ -58,7 +57,7 @@ func (r *roomDB) DeleteRoom(ctx context.Context, roomID int, db *gorm.DB) error 
 	return nil
 }
 
-func (r *roomDB) UpdateRoom(ctx context.Context, room *model.Room, db *gorm.DB) (*model.Room, error) {
+func (r *roomDB) UpdateRoom(room *model.Room, db *gorm.DB) (*model.Room, error) {
 	result := db.Save(room)
 	if result.Error != nil {
 		return nil, fmt.Errorf("queryFailed: %w", result.Error)
@@ -66,7 +65,7 @@ func (r *roomDB) UpdateRoom(ctx context.Context, room *model.Room, db *gorm.DB) 
 	return room, nil
 }
 
-func (r *roomDB) GetRoom(ctx context.Context, roomID int, db *gorm.DB) (*model.Room, error) {
+func (r *roomDB) GetRoom(roomID int, db *gorm.DB) (*model.Room, error) {
 	room := &model.Room{}
 	result := db.First(room, roomID)
 	if result.Error != nil {
@@ -75,7 +74,7 @@ func (r *roomDB) GetRoom(ctx context.Context, roomID int, db *gorm.DB) (*model.R
 	return room, nil
 }
 
-func (r *roomDB) GetRoomByHostID(ctx context.Context, hostID int, db *gorm.DB) (*model.Room, error) {
+func (r *roomDB) GetRoomByHostID(hostID int, db *gorm.DB) (*model.Room, error) {
 	room := &model.Room{}
 	result := db.Where("host_id =?", hostID).First(room)
 	if result.Error != nil {
@@ -84,7 +83,7 @@ func (r *roomDB) GetRoomByHostID(ctx context.Context, hostID int, db *gorm.DB) (
 	return room, nil
 }
 
-func (r *roomDB) GetAllRooms(ctx context.Context, db *gorm.DB) ([]model.Room, error) {
+func (r *roomDB) GetAllRooms(db *gorm.DB) ([]model.Room, error) {
 	rooms := []model.Room{}
 	result := db.Find(&rooms)
 	if result.Error != nil {
